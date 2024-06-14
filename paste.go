@@ -8,7 +8,7 @@ func (client *Client) CreatePaste(content string) (string, error) {
 	pasteUrl, err := client.fetch("POST", "/api/api_post.php", &url.Values{
 		"api_option":        {"paste"},
 		"api_paste_private": {"2"},
-		"api_paste_title":   {"Created with simonkamran/pastebin-client-go"},
+		"api_paste_title":   {"Created with simonkarman/pastebin-client-go"},
 		"api_paste_code":    {content},
 	})
 	if err != nil {
