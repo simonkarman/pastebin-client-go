@@ -15,15 +15,21 @@ func main() {
 	client := pastebin.New(*host, devKey, userKey)
 
 	// Create Paste
-	pasteKey, err := client.CreatePaste("My JSON Paste", "json", "{\n  \"message\": \"Hello, world!\"\n}")
+	pasteKey, err := client.CreatePaste("{\n  \"message\": \"Hello, world!\"\n}")
 	if err != nil {
 		panic(err)
 	}
 	fmt.Printf("Created: %s\n", pasteKey)
 
+	paste, err := client.GetPaste(pasteKey)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("Got: %s\n", paste)
+
 	// sleep for 20 seconds
-	fmt.Println("Deleting in 20 seconds...")
-	time.Sleep(20 * time.Second)
+	fmt.Println("Deleting in 1 second...")
+	time.Sleep(1 * time.Second)
 
 	// Delete Paste
 	err = client.DeletePaste(pasteKey)

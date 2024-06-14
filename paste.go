@@ -4,12 +4,12 @@ import (
 	"net/url"
 )
 
-func (client *Client) CreatePaste(title string, format string, content string) (string, error) {
+func (client *Client) CreatePaste(content string) (string, error) {
 	pasteUrl, err := client.fetch("POST", "/api/api_post.php", &url.Values{
-		"api_option":       {"paste"},
-		"api_paste_name":   {title},
-		"api_paste_format": {format},
-		"api_paste_code":   {content},
+		"api_option":        {"paste"},
+		"api_paste_private": {"2"},
+		"api_paste_title":   {"Created with simonkamran/pastebin-client-go"},
+		"api_paste_code":    {content},
 	})
 	if err != nil {
 		return "", err
@@ -24,6 +24,14 @@ func (client *Client) CreatePaste(title string, format string, content string) (
 		pasteKey = pasteKey[1:]
 	}
 	return pasteKey, nil
+}
+
+func (client *Client) GetPaste(pasteKey string) (string, error) {
+	pasteContent, err := client.fetch("POST", "/api/api_raw.php", &url.Values{
+		"api_option":    {"show_paste"},
+		"api_paste_key": {pasteKey},
+	})
+	return pasteContent, err
 }
 
 func (client *Client) DeletePaste(pasteKey string) error {
